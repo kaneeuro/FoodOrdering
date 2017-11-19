@@ -28,6 +28,10 @@ public class Tables implements Serializable{
 		this.numero = numero;
 		this.nombrePlace = nombrePlace;
 	}
+	public Tables(int numero) {
+		super();
+		this.numero = numero;
+	}
 	public Long getIdTable() {
 		return idTable;
 	}

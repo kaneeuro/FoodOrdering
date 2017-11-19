@@ -28,6 +28,11 @@ public class TablesController {
 		return tablesRepository.findOne(id);
 	}
 	
+	@RequestMapping(value="/tables/{numero}", method=RequestMethod.GET)
+	public Tables findByNumero(@PathVariable int numero) {
+		return tablesRepository.findByNumero(numero);
+	}
+	
 	@RequestMapping(value="/tables", method=RequestMethod.POST)
 	public Tables save(@RequestBody Tables tables) {
 		return tablesRepository.save(tables);

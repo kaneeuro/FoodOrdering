@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Employe implements Serializable{
@@ -32,7 +33,9 @@ public class Employe implements Serializable{
 	@ManyToOne()
 	@JoinColumn(name="id_cuisine", nullable=false)
 	private Cuisine cuisine;
-	
+	@OneToOne(mappedBy="employe")
+	private Compte compte;
+
 	public Employe() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -49,6 +52,20 @@ public class Employe implements Serializable{
 		this.fonction = fonction;
 		this.restaurant = restaurant;
 		this.cuisine = cuisine;
+	}
+
+	public Employe(String matricule, String prenom, String nom, String telephone, String email, String fonction,
+			Restaurant restaurant, Cuisine cuisine, Compte compte) {
+		super();
+		this.matricule = matricule;
+		this.prenom = prenom;
+		this.nom = nom;
+		this.telephone = telephone;
+		this.email = email;
+		this.fonction = fonction;
+		this.restaurant = restaurant;
+		this.cuisine = cuisine;
+		this.compte = compte;
 	}
 
 	public Long getIdEmploye() {
@@ -121,6 +138,14 @@ public class Employe implements Serializable{
 
 	public void setCuisine(Cuisine cuisine) {
 		this.cuisine = cuisine;
+	}
+	
+	public Compte getCompte() {
+		return compte;
+	}
+
+	public void setCompte(Compte compte) {
+		this.compte = compte;
 	}
 	
 }

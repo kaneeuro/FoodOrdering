@@ -6,4 +6,5 @@ import com.sadic.myfastfood.entities.Tables;
 
 public interface TablesRepository extends JpaRepository<Tables, Long> {
 
+	public Tables findByNumero(int numero);
 }

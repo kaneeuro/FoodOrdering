@@ -6,4 +6,5 @@ import com.sadic.myfastfood.entities.Article;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
+	public Article findByDesignation(String designation);
 }

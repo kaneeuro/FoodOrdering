@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sadic.myfastfood.dao.CommandeArticleRepository;
+import com.sadic.myfastfood.dao.CommandeRepository;
+import com.sadic.myfastfood.entities.Commande;
 import com.sadic.myfastfood.entities.CommandeArticle;
 
 @RestController
@@ -17,6 +19,8 @@ public class CommandeArticleController {
 
 	@Autowired
 	CommandeArticleRepository commandeArticleRepository;
+	@Autowired
+	CommandeRepository commandeRepository;
 
 	@RequestMapping(value="/commandearticles", method=RequestMethod.GET)
 	public List<CommandeArticle> findAll() {
@@ -28,8 +32,21 @@ public class CommandeArticleController {
 		return commandeArticleRepository.findOne(id);
 	}
 	
-	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
+	/*@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
 	public CommandeArticle save(@RequestBody CommandeArticle commandeArticle) {
+		return commandeArticleRepository.save(commandeArticle);
+	}
+
+	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
+	public CommandeArticle save(@RequestBody CommandeArticle commandeArticle, @RequestBody Commande commande) {
+		
+		commandeRepository.save(commande);
+		return commandeArticleRepository.save(commandeArticle);
+	}*/
+
+	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
+	public List<CommandeArticle> save(@RequestBody List<CommandeArticle> commandeArticle, @RequestBody Commande commande) {
+		commandeRepository.save(commande);
 		return commandeArticleRepository.save(commandeArticle);
 	}
 	

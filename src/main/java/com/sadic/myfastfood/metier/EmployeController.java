@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sadic.myfastfood.dao.CompteRepository;
 import com.sadic.myfastfood.dao.EmployeRepository;
 import com.sadic.myfastfood.entities.Employe;
 
@@ -17,6 +18,8 @@ public class EmployeController {
 
 	@Autowired
 	EmployeRepository employeRepository;
+	@Autowired
+	CompteRepository compteRepository;
 
 	@RequestMapping(value="/employes", method=RequestMethod.GET)
 	public List<Employe> findAll() {
@@ -26,6 +29,11 @@ public class EmployeController {
 	@RequestMapping(value="/employes/{id}", method=RequestMethod.GET)
 	public Employe findOne(@PathVariable Long id) {
 		return employeRepository.findOne(id);
+	}
+	
+	@RequestMapping(value="/employes/{login}", method=RequestMethod.GET)
+	public Employe findByCompte(@PathVariable String login) {
+		return employeRepository.findByCompte(compteRepository.findByLogin(login));
 	}
 	
 	@RequestMapping(value="/employes", method=RequestMethod.POST)

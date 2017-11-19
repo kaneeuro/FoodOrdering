@@ -6,4 +6,5 @@ import com.sadic.myfastfood.entities.Compte;
 
 public interface CompteRepository extends JpaRepository<Compte, Long> {
 
+	public Compte findByLogin(String login);
 }
