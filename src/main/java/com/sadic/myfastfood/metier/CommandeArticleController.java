@@ -45,9 +45,17 @@ public class CommandeArticleController {
 	}*/
 
 	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
-	public List<CommandeArticle> save(@RequestBody List<CommandeArticle> commandeArticle, @RequestBody Commande commande) {
-		commandeRepository.save(commande);
-		return commandeArticleRepository.save(commandeArticle);
+	@Transactional
+	public List<CommandeArticle> save(@RequestBody List<CommandeArticle> commandeArticles) {
+		Commande commande = commandeRepository.save(new Commande(commandeArticles.get(0).getCommande().getNumero(),
+																commandeArticles.get(0).getCommande().getDate(),
+																commandeArticles.get(0).getCommande().getStatut(),
+																commandeArticles.get(0).getCommande().getEmploye(),
+																commandeArticles.get(0).getCommande().getTable()));
+		for (CommandeArticle commandeArticle : commandeArticles) {
+			commandeArticle.setCommande(commande);
+		}
+		return commandeArticleRepository.save(commandeArticles);
 	}
 	
 	@RequestMapping(value="/commandearticles/{id}", method=RequestMethod.PUT)
