@@ -3,6 +3,7 @@ package com.sadic.myfastfood.metier;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,17 +33,10 @@ public class CommandeArticleController {
 		return commandeArticleRepository.findOne(id);
 	}
 	
-	/*@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
-	public CommandeArticle save(@RequestBody CommandeArticle commandeArticle) {
-		return commandeArticleRepository.save(commandeArticle);
+	@RequestMapping(value="/articlesbycommande/{id}", method=RequestMethod.GET)
+	public List<CommandeArticle> findByCommande(@PathVariable Long id) {
+		return commandeArticleRepository.findByCommande(commandeRepository.findByNumero(id));
 	}
-
-	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
-	public CommandeArticle save(@RequestBody CommandeArticle commandeArticle, @RequestBody Commande commande) {
-		
-		commandeRepository.save(commande);
-		return commandeArticleRepository.save(commandeArticle);
-	}*/
 
 	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
 	@Transactional

@@ -43,6 +43,15 @@ public class Commande implements Serializable{
 		this.employe = employe;
 		this.table = table;
 	}
+	
+	public Commande(Long numero, Date date,int statut, Employe employe, Tables table) {
+		super();
+		this.numero = numero;
+		this.date = date;
+		this.statut = statut;
+		this.employe = employe;
+		this.table = table;
+	}
 	public Long getIdCommande() {
 		return idCommande;
 	}

@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.sadicomputing</groupId>
-	<artifactId>MyFastFood</artifactId>
+	<artifactId>FoodOrdering</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>MyFastFood</name>
-	<description>Food ordering</description>
+	<name>FoodOrdering</name>
+	<description>Food Ordering Project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

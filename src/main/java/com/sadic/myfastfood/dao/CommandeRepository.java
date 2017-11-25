@@ -6,4 +6,5 @@ import com.sadic.myfastfood.entities.Commande;
 
 public interface CommandeRepository extends JpaRepository<Commande, Long> {
 
+	public Commande findByNumero(Long numero);
 }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sadic.myfastfood.dao.CompteRepository;
@@ -26,6 +27,11 @@ public class CompteController {
 	@RequestMapping(value="/comptes/{id}", method=RequestMethod.GET)
 	public Compte findOne(@PathVariable Long id) {
 		return compteRepository.findOne(id);
+	}
+	
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public Compte findByLogin(@RequestParam String login) {
+		return compteRepository.findByLogin(login);
 	}
 	
 	@RequestMapping(value="/comptes", method=RequestMethod.POST)

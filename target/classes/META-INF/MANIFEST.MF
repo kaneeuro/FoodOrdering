@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
-Implementation-Title: MyFastFood
+Implementation-Title: FoodOrdering
 Implementation-Version: 0.0.1-SNAPSHOT
 Built-By: modykane
 Implementation-Vendor-Id: com.sadicomputing
 Build-Jdk: 1.8.0_144
-Implementation-URL: http://projects.spring.io/spring-boot/MyFastFood/
+Implementation-URL: http://projects.spring.io/spring-boot/FoodOrdering
+ /
 Created-By: Maven Integration for Eclipse
 Implementation-Vendor: Pivotal Software, Inc.
 

@@ -31,11 +31,6 @@ public class EmployeController {
 		return employeRepository.findOne(id);
 	}
 	
-	@RequestMapping(value="/employes/{login}", method=RequestMethod.GET)
-	public Employe findByCompte(@PathVariable String login) {
-		return employeRepository.findByCompte(compteRepository.findByLogin(login));
-	}
-	
 	@RequestMapping(value="/employes", method=RequestMethod.POST)
 	public Employe save(@RequestBody Employe employe) {
 		return employeRepository.save(employe);
