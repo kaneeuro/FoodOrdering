@@ -3,6 +3,7 @@ package com.sadic.myfastfood.metier;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.sadic.myfastfood.dao.CompteRepository;
 import com.sadic.myfastfood.entities.Compte;
 
 @RestController
+@CrossOrigin("*")
 public class CompteController {
 
 	@Autowired
@@ -32,6 +34,16 @@ public class CompteController {
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public Compte findByLogin(@RequestParam String login) {
 		return compteRepository.findByLogin(login);
+	}
+	
+	@RequestMapping(value="/loginandpassword", method=RequestMethod.POST)
+	public Compte findByLoginAndPassword(@RequestParam String login, @RequestParam String password) {
+		return compteRepository.findByLoginAndPassword(login, password);
+	}
+	
+	@RequestMapping(value="/loginandpassword/{login}/{password}", method=RequestMethod.GET)
+	public Compte findByLoginPassword(@PathVariable String login, @PathVariable String password) {
+		return compteRepository.findByLoginAndPassword(login, password);
 	}
 	
 	@RequestMapping(value="/comptes", method=RequestMethod.POST)

@@ -3,6 +3,7 @@ package com.sadic.myfastfood.metier;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sadic.myfastfood.dao.ArticleRepository;
+import com.sadic.myfastfood.dao.CategorieRepository;
 import com.sadic.myfastfood.entities.Article;
 
 @RestController
@@ -17,10 +19,19 @@ public class ArticleController {
 	
 	@Autowired
 	ArticleRepository articleRepository;
+	
+	@Autowired
+	CategorieRepository categorieRepository;
 
 	@RequestMapping(value="/articles", method=RequestMethod.GET)
 	public List<Article> findAll() {
 		return articleRepository.findAll();
+	}
+	
+	@Transactional
+	@RequestMapping(value="/articlesbycategorie/{id}", method=RequestMethod.GET)
+	public List<Article> findByCategorie(@PathVariable Long id) {
+		return articleRepository.findByCategorie(categorieRepository.findOne(id));
 	}
 	
 	@RequestMapping(value="/articles/{id}", method=RequestMethod.GET)
