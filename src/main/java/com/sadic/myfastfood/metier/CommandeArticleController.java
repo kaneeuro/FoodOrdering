@@ -1,5 +1,6 @@
 package com.sadic.myfastfood.metier;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sadic.myfastfood.dao.CommandeArticleRepository;
 import com.sadic.myfastfood.dao.CommandeRepository;
+import com.sadic.myfastfood.dao.TablesRepository;
 import com.sadic.myfastfood.entities.Commande;
 import com.sadic.myfastfood.entities.CommandeArticle;
 
@@ -22,6 +24,8 @@ public class CommandeArticleController {
 	CommandeArticleRepository commandeArticleRepository;
 	@Autowired
 	CommandeRepository commandeRepository;
+	@Autowired
+	TablesRepository tablesRepository;
 
 	@RequestMapping(value="/commandearticles", method=RequestMethod.GET)
 	public List<CommandeArticle> findAll() {
@@ -41,11 +45,9 @@ public class CommandeArticleController {
 	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
 	@Transactional
 	public List<CommandeArticle> save(@RequestBody List<CommandeArticle> commandeArticles) {
-		Commande commande = commandeRepository.save(new Commande(commandeArticles.get(0).getCommande().getNumero(),
-																commandeArticles.get(0).getCommande().getDate(),
-																commandeArticles.get(0).getCommande().getStatut(),
-																commandeArticles.get(0).getCommande().getEmploye(),
-																commandeArticles.get(0).getCommande().getTable()));
+		commandeArticles.get(0).getCommande().setDate(new Date());
+		commandeArticles.get(0).getCommande().setTable(tablesRepository.findByNumero(1));
+		Commande commande = commandeRepository.save(commandeArticles.get(0).getCommande());
 		for (CommandeArticle commandeArticle : commandeArticles) {
 			commandeArticle.setCommande(commande);
 		}
