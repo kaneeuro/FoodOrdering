@@ -19,6 +19,7 @@ public class Catalogue implements Serializable{
 	@GeneratedValue
 	private Long idCatalogue;
 	private String nom;
+	private String imageUrl;
 	@ManyToOne()
 	@JoinColumn(name="id_resto", nullable=false)
 	private Restaurant restaurant;
@@ -48,6 +49,18 @@ public class Catalogue implements Serializable{
 		return restaurant;
 	}
 	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public Catalogue(String nom, String imageUrl, Restaurant restaurant) {
+		super();
+		this.nom = nom;
+		this.imageUrl = imageUrl;
 		this.restaurant = restaurant;
 	}
 

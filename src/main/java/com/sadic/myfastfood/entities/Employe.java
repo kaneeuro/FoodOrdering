@@ -26,6 +26,7 @@ public class Employe implements Serializable{
 	private String telephone;
 	private String email;
 	private String fonction;
+	private String imageUrl;
 	@ManyToOne()
 	@JoinColumn(name="id_resto", nullable=false)
 	private Restaurant restaurant;
@@ -120,6 +121,28 @@ public class Employe implements Serializable{
 	}
 
 	public void setCuisine(Cuisine cuisine) {
+		this.cuisine = cuisine;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public Employe(String matricule, String prenom, String nom, String telephone, String email, String fonction,
+			String imageUrl, Restaurant restaurant, Cuisine cuisine) {
+		super();
+		this.matricule = matricule;
+		this.prenom = prenom;
+		this.nom = nom;
+		this.telephone = telephone;
+		this.email = email;
+		this.fonction = fonction;
+		this.imageUrl = imageUrl;
+		this.restaurant = restaurant;
 		this.cuisine = cuisine;
 	}
 	

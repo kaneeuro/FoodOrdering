@@ -28,6 +28,11 @@ public class CommandeController {
 		return commandeRepository.findOne(id);
 	}
 	
+	@RequestMapping(value="/commandesbystatut/{statut}", method=RequestMethod.GET)
+	public List<Commande> findByStatut(@PathVariable int statut) {
+		return commandeRepository.findByStatut(statut);
+	}
+	
 	@RequestMapping(value="/commandes", method=RequestMethod.POST)
 	public Commande save(@RequestBody Commande commande) {
 		return commandeRepository.save(commande);

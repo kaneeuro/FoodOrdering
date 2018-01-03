@@ -13,6 +13,7 @@ import com.sadic.myfastfood.dao.CommandeArticleTemporaireRepository;
 import com.sadic.myfastfood.dao.TablesRepository;
 import com.sadic.myfastfood.entities.CommandeArticleTemporaire;
 import com.sadic.myfastfood.entities.Employe;
+import com.sadic.myfastfood.entities.Tables;
 
 @RestController
 public class CommandeArticleTemporaireController {
@@ -39,7 +40,6 @@ public class CommandeArticleTemporaireController {
 	
 	@RequestMapping(value="/temporaires", method=RequestMethod.POST)
 	public CommandeArticleTemporaire save(@RequestBody CommandeArticleTemporaire articleTemporaire) {
-		articleTemporaire.setTable(tablesRepository.findByNumero(1));
 		return temporaireRepository.save(articleTemporaire);
 	}
 	

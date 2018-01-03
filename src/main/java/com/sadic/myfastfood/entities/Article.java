@@ -20,6 +20,7 @@ public class Article implements Serializable{
 	@GeneratedValue
 	private Long idArticle;
 	private String designation;
+	private String imageUrl;
 	private double prix;
 	@ManyToOne()
 	@JoinColumn(name="id_categorie", nullable=false)
@@ -34,6 +35,14 @@ public class Article implements Serializable{
 		super();
 		this.designation = designation;
 		this.prix = prix;
+		this.categorie = categorie;
+	}
+	
+	public Article(String designation, double prix, String imageUrl, Categorie categorie) {
+		super();
+		this.designation = designation;
+		this.prix = prix;
+		this.imageUrl = imageUrl;
 		this.categorie = categorie;
 	}
 
@@ -67,6 +76,14 @@ public class Article implements Serializable{
 
 	public void setCategorie(Categorie categorie) {
 		this.categorie = categorie;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 }

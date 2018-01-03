@@ -20,6 +20,7 @@ public class Cuisine implements Serializable{
 	private Long idCuisine;
 	private String nom;
 	private String type;
+	private String imageUrl;
 	@ManyToOne()
 	@JoinColumn(name="id_resto", nullable=false)
 	private Restaurant restaurant;
@@ -56,6 +57,19 @@ public class Cuisine implements Serializable{
 		return restaurant;
 	}
 	public void setRestaurant(Restaurant restaurant) {
+		this.restaurant = restaurant;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public Cuisine(String nom, String type, String imageUrl, Restaurant restaurant) {
+		super();
+		this.nom = nom;
+		this.type = type;
+		this.imageUrl = imageUrl;
 		this.restaurant = restaurant;
 	}
 

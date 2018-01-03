@@ -22,6 +22,7 @@ public class Restaurant implements Serializable{
 	private String adresse;
 	private String telephone;
 	private String email;
+	private String imageUrl;
 	
 	public Restaurant() {
 		super();
@@ -83,6 +84,25 @@ public class Restaurant implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public Restaurant(String code, String designation, String adresse, String telephone, String email,
+			String imageUrl) {
+		super();
+		this.code = code;
+		this.designation = designation;
+		this.adresse = adresse;
+		this.telephone = telephone;
+		this.email = email;
+		this.imageUrl = imageUrl;
 	}
 
 }

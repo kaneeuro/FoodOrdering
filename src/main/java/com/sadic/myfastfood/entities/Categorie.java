@@ -20,6 +20,7 @@ public class Categorie implements Serializable{
 	@GeneratedValue
 	private Long idCategorie;
 	private String nom;
+	private String imageUrl;
 	@ManyToOne()
 	@JoinColumn(name="id_catalogue", nullable=false)
 	private Catalogue catalogue;
@@ -56,6 +57,21 @@ public class Categorie implements Serializable{
 	}
 
 	public void setCatalogue(Catalogue catalogue) {
+		this.catalogue = catalogue;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public Categorie(String nom, String imageUrl, Catalogue catalogue) {
+		super();
+		this.nom = nom;
+		this.imageUrl = imageUrl;
 		this.catalogue = catalogue;
 	}
 

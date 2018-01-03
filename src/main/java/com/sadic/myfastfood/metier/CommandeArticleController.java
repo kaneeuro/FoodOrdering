@@ -1,5 +1,6 @@
 package com.sadic.myfastfood.metier;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import com.sadic.myfastfood.dao.CommandeRepository;
 import com.sadic.myfastfood.dao.TablesRepository;
 import com.sadic.myfastfood.entities.Commande;
 import com.sadic.myfastfood.entities.CommandeArticle;
+import com.sadic.myfastfood.entities.Tables;
 
 @RestController
 public class CommandeArticleController {
@@ -37,16 +39,33 @@ public class CommandeArticleController {
 		return commandeArticleRepository.findOne(id);
 	}
 	
-	@RequestMapping(value="/articlesbycommande/{id}", method=RequestMethod.GET)
-	public List<CommandeArticle> findByCommande(@PathVariable Long id) {
-		return commandeArticleRepository.findByCommande(commandeRepository.findByNumero(id));
+	@RequestMapping(value="/articlesbycommande/{numero}", method=RequestMethod.GET)
+	public List<CommandeArticle> findByCommande(@PathVariable Long numero) {
+		return commandeArticleRepository.findByCommande(commandeRepository.findByNumero(numero));
+	}
+	
+	@RequestMapping(value="/articlesbystatutcommande/{statut}", method=RequestMethod.GET)
+	public List<CommandeArticle> findByStatutCommande(@PathVariable int statut) {
+		List<CommandeArticle> commandeArticles = new ArrayList<>();
+		List<Commande> commandes = commandeRepository.findByStatut(statut);
+		if (!commandes.isEmpty()) {
+			for (Commande commande : commandes) {
+				commandeArticles.addAll(commandeArticleRepository.findByCommande(commande));
+			}
+		}
+		return commandeArticles;
 	}
 
-	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
 	@Transactional
+	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
 	public List<CommandeArticle> save(@RequestBody List<CommandeArticle> commandeArticles) {
+		Tables table = tablesRepository.findByNumero(commandeArticles.get(0).getCommande().getTable().getNumero());
+		if (table!=null) {
+			commandeArticles.get(0).getCommande().setTable(table);
+		} else {
+			table = tablesRepository.save(commandeArticles.get(0).getCommande().getTable());
+		}
 		commandeArticles.get(0).getCommande().setDate(new Date());
-		commandeArticles.get(0).getCommande().setTable(tablesRepository.findByNumero(1));
 		Commande commande = commandeRepository.save(commandeArticles.get(0).getCommande());
 		for (CommandeArticle commandeArticle : commandeArticles) {
 			commandeArticle.setCommande(commande);
@@ -57,6 +76,7 @@ public class CommandeArticleController {
 	@RequestMapping(value="/commandearticles/{id}", method=RequestMethod.PUT)
 	public CommandeArticle update(@PathVariable Long id, @RequestBody CommandeArticle commandeArticle) {
 		commandeArticle.setIdCommandeArticle(id);
+		commandeRepository.save(commandeArticle.getCommande());
 		return commandeArticleRepository.save(commandeArticle);
 	}
 	
