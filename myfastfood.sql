@@ -13,9 +13,7 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `myfastfood`
 --
-create database myfastfood;
 
-use myfastfood;
 -- --------------------------------------------------------
 
 --
