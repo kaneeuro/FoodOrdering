@@ -25,9 +25,13 @@ public class CommandeArticle implements Serializable{
 	@ManyToOne()
 	@JoinColumn(name="id_commande", nullable=false)
 	private Commande commande;
+	@ManyToOne()
+	@JoinColumn(name="id_cuisinier")
+	private Employe cuisinier;
 	private Long quantite;
 	private double prixUnitaire;
 	private double prixTotal;
+	private int statut;
 	
 	public CommandeArticle() {
 		super();
@@ -41,6 +45,16 @@ public class CommandeArticle implements Serializable{
 		this.quantite = quantite;
 		this.prixUnitaire = prixUnitaire;
 		this.prixTotal = prixTotal;
+	}
+
+	public CommandeArticle(Article article, Commande commande, Long quantite, double prixUnitaire, double prixTotal, int statut) {
+		super();
+		this.article = article;
+		this.commande = commande;
+		this.quantite = quantite;
+		this.prixUnitaire = prixUnitaire;
+		this.prixTotal = prixTotal;
+		this.statut = statut;
 	}
 
 	public Long getIdCommandeArticle() {
@@ -89,6 +103,20 @@ public class CommandeArticle implements Serializable{
 
 	public void setPrixTotal(double prixTotal) {
 		this.prixTotal = prixTotal;
+	}
+	public int getStatut() {
+		return statut;
+	}
+	public void setStatut(int statut) {
+		this.statut = statut;
+	}
+
+	public Employe getCuisinier() {
+		return cuisinier;
+	}
+
+	public void setCuisinier(Employe cuisinier) {
+		this.cuisinier = cuisinier;
 	}
 	
 }

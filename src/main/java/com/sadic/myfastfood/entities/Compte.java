@@ -24,6 +24,7 @@ public class Compte implements Serializable{
 	@Column(nullable = false)
 	private String password;
 	private String role;
+	private String token;
 	@OneToOne()
 	@JoinColumn(name="id_employe", nullable=false)
 	private Employe employe;
@@ -68,6 +69,12 @@ public class Compte implements Serializable{
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	

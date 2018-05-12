@@ -1,5 +1,7 @@
 package com.sadic.myfastfood.metier;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,16 +9,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sadic.myfastfood.dao.CommandeRepository;
+import com.sadic.myfastfood.dao.CompteRepository;
+import com.sadic.myfastfood.dao.EmployeRepository;
 import com.sadic.myfastfood.entities.Commande;
+import com.sadic.myfastfood.entities.Employe;
 
 @RestController
 public class CommandeController {
 
 	@Autowired
 	CommandeRepository commandeRepository;
+	@Autowired
+	CompteRepository compteRepository;
 
 	@RequestMapping(value="/commandes", method=RequestMethod.GET)
 	public List<Commande> findAll() {
@@ -31,6 +39,18 @@ public class CommandeController {
 	@RequestMapping(value="/commandesbystatut/{statut}", method=RequestMethod.GET)
 	public List<Commande> findByStatut(@PathVariable int statut) {
 		return commandeRepository.findByStatut(statut);
+	}
+	
+	@RequestMapping(value="/commandesbycomptable", method=RequestMethod.POST)
+	public List<Commande> findByComptable(@RequestBody Employe comptable) {
+		return commandeRepository.findByComptable(comptable);
+	}
+	
+	@RequestMapping(value="/comptableCommandesDuJour/{comptable}", method=RequestMethod.GET)
+	public List<Commande> comptableCommandesDuJour(@PathVariable(name="comptable") String login) {
+		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+		String date = sf.format(new Date()).substring(0, 10);
+		return commandeRepository.comptableCommandesDuJour(compteRepository.findByLogin(login).getEmploye(), date+"%");
 	}
 	
 	@RequestMapping(value="/commandes", method=RequestMethod.POST)

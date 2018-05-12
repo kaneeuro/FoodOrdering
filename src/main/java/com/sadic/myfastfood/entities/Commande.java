@@ -1,15 +1,12 @@
 package com.sadic.myfastfood.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 @Entity
 public class Commande implements Serializable{
@@ -22,12 +19,18 @@ public class Commande implements Serializable{
 	@GeneratedValue
 	private Long idCommande;
 	private Long numero;
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+	//@Temporal(TemporalType.TIMESTAMP)
+	private String date;
 	private int statut;
 	@ManyToOne()
-	@JoinColumn(name="id_employe", nullable=false)
-	private Employe employe;
+	@JoinColumn(name="id_serveur", nullable=false)
+	private Employe serveur;
+	@ManyToOne()
+	@JoinColumn(name="id_cuisinier")
+	private Employe cuisinier;
+	@ManyToOne()
+	@JoinColumn(name="id_comptable")
+	private Employe comptable;
 	@ManyToOne()
 	@JoinColumn(name="id_table", nullable=false)
 	private Tables table;
@@ -36,20 +39,20 @@ public class Commande implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Commande(Long numero, Date date, Employe employe, Tables table) {
+	public Commande(Long numero, String date, Employe serveur, Tables table) {
 		super();
 		this.numero = numero;
 		this.date = date;
-		this.employe = employe;
+		this.serveur = serveur;
 		this.table = table;
 	}
 	
-	public Commande(Long numero, Date date,int statut, Employe employe, Tables table) {
+	public Commande(Long numero, String date,int statut, Employe serveur, Tables table) {
 		super();
 		this.numero = numero;
 		this.date = date;
 		this.statut = statut;
-		this.employe = employe;
+		this.serveur = serveur;
 		this.table = table;
 	}
 	public Long getIdCommande() {
@@ -64,17 +67,29 @@ public class Commande implements Serializable{
 	public void setNumero(Long numero) {
 		this.numero = numero;
 	}
-	public Date getDate() {
+	public String getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(String date) {
 		this.date = date;
 	}
-	public Employe getEmploye() {
-		return employe;
+	public Employe getServeur() {
+		return serveur;
 	}
-	public void setEmploye(Employe employe) {
-		this.employe = employe;
+	public void setServeur(Employe serveur) {
+		this.serveur = serveur;
+	}
+	public Employe getCuisinier() {
+		return cuisinier;
+	}
+	public void setCuisinier(Employe cuisinier) {
+		this.cuisinier = cuisinier;
+	}
+	public Employe getComptable() {
+		return comptable;
+	}
+	public void setComptable(Employe comptable) {
+		this.comptable = comptable;
 	}
 	public Tables getTable() {
 		return table;

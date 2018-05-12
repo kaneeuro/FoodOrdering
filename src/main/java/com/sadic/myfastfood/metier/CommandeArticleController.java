@@ -1,5 +1,6 @@
 package com.sadic.myfastfood.metier;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sadic.myfastfood.dao.CommandeArticleRepository;
 import com.sadic.myfastfood.dao.CommandeRepository;
+import com.sadic.myfastfood.dao.CompteRepository;
 import com.sadic.myfastfood.dao.TablesRepository;
 import com.sadic.myfastfood.entities.Commande;
 import com.sadic.myfastfood.entities.CommandeArticle;
+import com.sadic.myfastfood.entities.Employe;
 import com.sadic.myfastfood.entities.Tables;
 
 @RestController
@@ -28,6 +31,8 @@ public class CommandeArticleController {
 	CommandeRepository commandeRepository;
 	@Autowired
 	TablesRepository tablesRepository;
+	@Autowired
+	CompteRepository compteRepository;
 
 	@RequestMapping(value="/commandearticles", method=RequestMethod.GET)
 	public List<CommandeArticle> findAll() {
@@ -56,6 +61,18 @@ public class CommandeArticleController {
 		return commandeArticles;
 	}
 
+	@RequestMapping(value="/articlesbystatutandstatutcommande/{statut}/{statutcommande}", method=RequestMethod.GET)
+	public List<CommandeArticle> findByStatutAndStatutCommande(@PathVariable int statut, @PathVariable int statutcommande) {
+		List<CommandeArticle> commandeArticles = new ArrayList<>();
+		List<Commande> commandes = commandeRepository.findByStatut(statutcommande);
+		if (!commandes.isEmpty()) {
+			for (Commande commande : commandes) {
+				commandeArticles.addAll(commandeArticleRepository.findByStatutAndCommande(statut, commande));
+			}
+		}
+		return commandeArticles;
+	}
+
 	@Transactional
 	@RequestMapping(value="/commandearticles", method=RequestMethod.POST)
 	public List<CommandeArticle> save(@RequestBody List<CommandeArticle> commandeArticles) {
@@ -65,12 +82,47 @@ public class CommandeArticleController {
 		} else {
 			table = tablesRepository.save(commandeArticles.get(0).getCommande().getTable());
 		}
-		commandeArticles.get(0).getCommande().setDate(new Date());
+		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		commandeArticles.get(0).getCommande().setDate(sf.format(new Date()));
 		Commande commande = commandeRepository.save(commandeArticles.get(0).getCommande());
 		for (CommandeArticle commandeArticle : commandeArticles) {
 			commandeArticle.setCommande(commande);
 		}
 		return commandeArticleRepository.save(commandeArticles);
+	}
+	
+	@RequestMapping(value="/commandearticlesbyserveur", method=RequestMethod.POST)
+	public List<CommandeArticle> findByServeur(@RequestBody Employe serveur) {
+		List<Commande> commandes = commandeRepository.findByServeur(serveur);
+		List<CommandeArticle> commandeArticles = new ArrayList<>();
+		for (Commande commande : commandes) {
+			commandeArticles.addAll(commandeArticleRepository.findByCommande(commande));
+		}
+		return commandeArticles;
+	}
+	
+	@RequestMapping(value="/serveurCommandesDuJour/{serveur}", method=RequestMethod.GET)
+	public List<CommandeArticle> serveurCommandesDuJour(@PathVariable(name="serveur") String login) {
+		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+		String date = sf.format(new Date()).substring(0, 10);
+		return commandeArticleRepository.serveurCommandesDuJour(compteRepository.findByLogin(login).getEmploye(), date+"%");
+	}
+	
+	@RequestMapping(value="/cuisinierCommandesDuJour/{cuisinier}", method=RequestMethod.GET)
+	public List<CommandeArticle> cuisinierCommandesDuJour(@PathVariable(name="cuisinier") String login) {
+		SimpleDateFormat sf = new SimpleDateFormat("dd-MM-yyyy");
+		String date = sf.format(new Date()).substring(0, 10);
+		return commandeArticleRepository.cuisinierCommandesDuJour(compteRepository.findByLogin(login).getEmploye(), date+"%");
+	}
+	
+	@RequestMapping(value="/commandearticlesbycuisinier", method=RequestMethod.POST)
+	public List<CommandeArticle> findByCuisinier(@RequestBody Employe cuisinier) {
+		List<Commande> commandes = commandeRepository.findByCuisinier(cuisinier);
+		List<CommandeArticle> commandeArticles = new ArrayList<>();
+		for (Commande commande : commandes) {
+			commandeArticles.addAll(commandeArticleRepository.findByCommande(commande));
+		}
+		return commandeArticles;
 	}
 	
 	@RequestMapping(value="/commandearticles/{id}", method=RequestMethod.PUT)
